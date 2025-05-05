@@ -17,7 +17,7 @@ type Response struct {
 	Url string `json:"url"`
 }
 
-func CreateUrlHandler(w http.ResponseWriter, r *http.Request) {
+func CreateUrlHandler(w http.ResponseWriter, r *http.Request, storage *storage.StorageService) {
 	var payload Payload
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&payload)

@@ -6,8 +6,12 @@ import (
 	"github.com/misxka/go-url-shortener/storage"
 )
 
-func ShortUrlRedirectHandler(w http.ResponseWriter, r *http.Request) {
+func ShortUrlRedirectHandler(w http.ResponseWriter, r *http.Request, storage *storage.StorageService) {
 	shortUrl := r.PathValue("url")
-	originalUrl := storage.GetOriginalUrl(shortUrl)
+	originalUrl, err := storage.GetOriginalUrl(shortUrl)
+	if err != nil {
+		http.Error(w, "URL not found", http.StatusNotFound)
+		return
+	}
 	http.Redirect(w, r, originalUrl, http.StatusFound)
 }
